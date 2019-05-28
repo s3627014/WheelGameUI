@@ -1,6 +1,8 @@
 package view;
 
+import controller.GameEngineCallbackController;
 import controller.MenuBarController;
+import controller.WheelPanelController;
 import model.GameEngineImpl;
 import model.interfaces.GameEngine;
 
@@ -15,27 +17,36 @@ import java.beans.PropertyChangeSupport;
 
 public class AppFrame extends JFrame {
 
-	private GameEngine gameEngine = new GameEngineImpl();
-	private SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
-	private WheelPanel wheelPanel = new WheelPanel();
 	private JMenuBar menubar = new JMenuBar();
 	private StatusBar statusBar = new StatusBar();
-	private MenuBarController menuBarController = new MenuBarController(gameEngine);
 
-	public AppFrame() {
-
-		//Set layout of Frame
+	public AppFrame(GameEngine gameEngine) {
+		//Set layout + title of Frame
 		super("WheelGameUI");
+		MenuBarController menuBarController = new MenuBarController(gameEngine);
+		WheelPanelController wheelPanelController = new WheelPanelController(gameEngine);
+		GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackController(gameEngine);
+		SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
+		WheelPanel wheelPanel = new WheelPanel(wheelPanelController);
+		gameEngine.addGameEngineCallback(new GameEngineCallbackGUI(gameEngineCallbackController));
 		setLayout(new BorderLayout());
 		setBounds(100, 100, 1280, 720);
 
-		//Create controller property change listeners
+		//Create controller and assign property change listeners
 		PropertyChangeSupport menuBarPcs = new PropertyChangeSupport(menuBarController);
 		menuBarPcs.addPropertyChangeListener(summaryPanel);
 		menuBarPcs.addPropertyChangeListener(statusBar);
-
 		menuBarController.setPCS(menuBarPcs);
 
+		PropertyChangeSupport wheelPanelPcs = new PropertyChangeSupport(wheelPanelController);
+		wheelPanelPcs.addPropertyChangeListener(wheelPanel);
+		wheelPanelController.setPCS(menuBarPcs);
+
+
+		PropertyChangeSupport gameEngineCallbackPcs = new PropertyChangeSupport(gameEngineCallbackController);
+		gameEngineCallbackPcs.addPropertyChangeListener(summaryPanel);
+		gameEngineCallbackPcs.addPropertyChangeListener(statusBar);
+		gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
 
 		//Create and add the menu bar
 		JMenu menu = new JMenu("size");

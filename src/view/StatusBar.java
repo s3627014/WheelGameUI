@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 
 public class StatusBar extends JPanel implements PropertyChangeListener {
 
-    private JLabel statusLabel = new JLabel("Game launched");
+    private JLabel statusLabel = new JLabel("Game launched...");
 
     public StatusBar(){
         setBorder(new BevelBorder(BevelBorder.LOWERED));
@@ -19,6 +19,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        statusLabel.setText("Player added");
+        statusLabel.setText(pce.getPropertyName());
     }
 }
