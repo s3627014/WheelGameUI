@@ -37,7 +37,12 @@ public class GameEngineCallbackController {
             }
             player.resetBet();
         }
-        pcs.firePropertyChange("Spin complete", losers, winners);
+        if (losers.size() == 0 && winners.size() == 0){
+            pcs.firePropertyChange("Spin complete", false, true);
+        }
+        else{
+            pcs.firePropertyChange("Spin complete", losers, winners);
+        }
     }
 
     public void drawNextSlot(Slot slot){

@@ -3,14 +3,16 @@ package view;
 import controller.MenuBarController;
 
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class MenuBar  extends JMenuBar {
+public class MenuBar  extends JMenuBar implements PropertyChangeListener {
     private JMenuItem closeItem, aboutItem, addPlayerItem, removePlayerItem, setBetItem;
+    private JMenu playersMenu = new JMenu("Players");
 
     public MenuBar(MenuBarController controller) {
 
         JMenu gameMenu = new JMenu("Game");
-        JMenu playersMenu = new JMenu("Players");
 
         aboutItem = gameMenu.add("About");
         closeItem = gameMenu.add("Close");
@@ -21,9 +23,13 @@ public class MenuBar  extends JMenuBar {
         addPlayerItem.addActionListener(controller);
         removePlayerItem.addActionListener(controller);
         setBetItem.addActionListener(controller);
-
         add(gameMenu);
         add(playersMenu);
 
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        playersMenu.setEnabled(pce.getPropertyName() == "Spin complete");
     }
 }
