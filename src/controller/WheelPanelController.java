@@ -17,7 +17,16 @@ public class WheelPanelController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameEngine.spin(1, 100, 5);
+
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                gameEngine.spin(1, 200, 5);
+
+            }
+        }.start();
     }
 
     public void setPCS(PropertyChangeSupport pcs) {

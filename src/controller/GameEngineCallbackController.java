@@ -39,4 +39,8 @@ public class GameEngineCallbackController {
         }
         pcs.firePropertyChange("Spin complete", losers, winners);
     }
+
+    public void drawNextSlot(Slot slot){
+        pcs.firePropertyChange("Draw next slot", false, slot.getPosition());
+    }
 }

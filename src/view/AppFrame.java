@@ -45,6 +45,8 @@ public class AppFrame extends JFrame {
 
 		PropertyChangeSupport gameEngineCallbackPcs = new PropertyChangeSupport(gameEngineCallbackController);
 		gameEngineCallbackPcs.addPropertyChangeListener(summaryPanel);
+		gameEngineCallbackPcs.addPropertyChangeListener(wheelPanel);
+
 		gameEngineCallbackPcs.addPropertyChangeListener(statusBar);
 		gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
 

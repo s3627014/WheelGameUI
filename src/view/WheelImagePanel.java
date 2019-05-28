@@ -13,19 +13,23 @@ public class WheelImagePanel extends JPanel {
 
     public WheelImagePanel() {
         try {
-            image = ImageIO.read(new File("C:\\Users\\luke\\Documents\\ees\\WheelGameUI\\src\\view\\resources\\wheel.png")); //need to fix relative path
+            image = ImageIO.read(new File("src/view/resources/wheel.png"));
+            setPreferredSize(new Dimension(5,5));
             setBackground(Color.darkGray);
-            setLayout(new BorderLayout());
 
         } catch (IOException ex) {
             // handle exception...
         }
+
+
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
+        g.drawImage(image, getWidth(), getHeight(), null);
     }
 
 }

@@ -14,7 +14,7 @@ public class GameEngineCallbackGUI implements GameEngineCallback {
 
     @Override
     public void nextSlot(Slot slot, GameEngine engine) {
-
+            controller.drawNextSlot(slot);
     }
 
     @Override
