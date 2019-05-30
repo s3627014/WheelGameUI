@@ -40,7 +40,7 @@ public class WheelPanel  extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-            if (pce.getPropertyName() == "Draw next slot"){
+            if (pce.getPropertyName() == "Spinning..."){
                 int slotPosition = Integer.parseInt(pce.getNewValue().toString());
                 spin(slotPosition);
             }

@@ -38,7 +38,7 @@ public class GameEngineCallbackController {
             player.resetBet();
         }
         if (losers.size() == 0 && winners.size() == 0){
-            pcs.firePropertyChange("Spin complete", false, true);
+            pcs.firePropertyChange("Cheeky spin just for fun", false, true);
         }
         else{
             pcs.firePropertyChange("Spin complete", losers, winners);
@@ -46,6 +46,6 @@ public class GameEngineCallbackController {
     }
 
     public void drawNextSlot(Slot slot){
-        pcs.firePropertyChange("Draw next slot", false, slot.getPosition());
+        pcs.firePropertyChange("Spinning...", false, slot.getPosition());
     }
 }
