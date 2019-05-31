@@ -10,7 +10,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
 
     private JLabel statusLabel = new JLabel("Game launched...");
 
-    public StatusBar(){
+    StatusBar(){
         setBorder(new BevelBorder(BevelBorder.LOWERED));
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
         add(statusLabel);

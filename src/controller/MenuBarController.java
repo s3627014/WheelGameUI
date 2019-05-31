@@ -75,12 +75,30 @@ public class MenuBarController implements ActionListener {
     }
 
     private void betDialog() {
-        if (gameEngine.getAllPlayers().size() == 0) {
+        var allPlayers = gameEngine.getAllPlayers();
+        if (allPlayers.size() == 0) {
             JOptionPane.showMessageDialog(null, "No players found!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         new BetDialogBox(gameEngine);
         pcs.firePropertyChange("Bet Set", false, true);
+
+        //Check if a player still has a bet to place, if not spin the wheel.
+        for (Player player: allPlayers
+             ) {
+            if (player.getBetType() == null){
+                return;
+            }
+        }
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                gameEngine.spin(1, 200, 5);
+
+            }
+        }.start();
 
     }
 

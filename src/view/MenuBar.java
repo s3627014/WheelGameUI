@@ -7,11 +7,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class MenuBar  extends JMenuBar implements PropertyChangeListener {
+
     private JMenuItem closeItem, aboutItem, addPlayerItem, removePlayerItem, setBetItem;
     private JMenu playersMenu = new JMenu("Players");
-    private JMenu gameMenu = new JMenu("Players");
+    private JMenu gameMenu = new JMenu("Game");
 
-    public MenuBar(MenuBarController controller) {
+    MenuBar(MenuBarController controller) {
 
 
         aboutItem = gameMenu.add("About");
@@ -33,6 +34,6 @@ public class MenuBar  extends JMenuBar implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        playersMenu.setEnabled(pce.getPropertyName() == "Spin complete" || pce.getPropertyName() == "Cheeky spin just for fun");
+        playersMenu.setEnabled(pce.getPropertyName().equals("Spin complete") || pce.getPropertyName() == "Cheeky spin just for fun");
     }
 }

@@ -31,7 +31,10 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent pce){
-                updateText(pce.getPropertyName(), pce.getNewValue(), pce.getOldValue());
+        //Dont update the summary pannel if wheel is spinning
+        if (!pce.getPropertyName().equals("Spinning...")){
+            updateText(pce.getPropertyName(), pce.getNewValue(), pce.getOldValue());
+        }
     }
 
     private void updateText(String event, Object winners, Object losers){
@@ -59,11 +62,19 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
                 }
 
             }
-            if (betType == null){
-                playerSummary += "\n\n" + name + result +"\n__________________________\nPoints: " + points +"\nBet: 0";
-            }
-            else{
-                playerSummary += "\n\n" + name + result + "\n__________________________\nPoints: " + points +"\nBet: " + bet + " placed on " + player.getBetType();
+
+            playerSummary += String.format("\n\n%s%s\n__________________________\nPoints: %s",
+                    name,
+                    result,
+                    points,
+                    bet,
+                    player.getBetType());
+
+            if (betType != null){
+//                playerSummary += "\n\n" + name + result + "\n__________________________\nPoints: " + points +"\nBet: " + bet + " placed on " + player.getBetType();
+                playerSummary += String.format("\nBet: %s placed on %s",
+                        bet,
+                        player.getBetType());
             }
 
         }

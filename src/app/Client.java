@@ -14,16 +14,10 @@ public class Client
 	private static final Logger logger = Logger.getLogger(Client.class.getName());
 	public static void main(String[] args)
 	{
-		final GameEngine gameEngine = new GameEngineImpl();
-		gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
-//		gameEngine.addGameEngineCallback(new GameEngineCallbackGUI());
-		gameEngine.getWheelSlots();
-
-
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					createAndShowGUI(gameEngine);
+					createAndShowGUI();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -31,8 +25,8 @@ public class Client
 		});
 	}
 
-	public static void createAndShowGUI(GameEngine gameEngine) throws Exception {
-		new AppFrame(gameEngine);
+	public static void createAndShowGUI() throws Exception {
+		new AppFrame();
 
 	}
 }

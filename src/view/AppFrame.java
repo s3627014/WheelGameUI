@@ -10,60 +10,36 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import java.beans.PropertyChangeEvent;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class AppFrame extends JFrame {
 
-	private JMenuBar menubar = new JMenuBar();
-	private StatusBar statusBar = new StatusBar();
-
-	public AppFrame(GameEngine gameEngine) {
+	public AppFrame() {
 		//Set layout + title of Frame
 		super("WheelGameUI");
+		setBounds(100, 100, 1280, 720);
+
+		final GameEngine gameEngine = new GameEngineImpl();
+		var statusBar = new StatusBar();
+		gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
+		gameEngine.getWheelSlots();
 		MenuBarController menuBarController = new MenuBarController(gameEngine);
+		var menuBar = createMenu(menuBarController);
 		WheelPanelController wheelPanelController = new WheelPanelController(gameEngine);
 		GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackController(gameEngine);
 		SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
-
-		WheelPanel wheelPanel = new WheelPanel(wheelPanelController);
+		WheelPanel wheelPanel = createWheelPanel(wheelPanelController);
 		gameEngine.addGameEngineCallback(new GameEngineCallbackGUI(gameEngineCallbackController));
-		setLayout(new BorderLayout());
-		setBounds(100, 100, 1280, 720);
-
-
-		//Create and add the menu bar
-		JMenu menu = new JMenu("size");
-		JMenuItem size = new JMenuItem("size");
-		menu.add(size);
-		var menuBar = new MenuBar(menuBarController);
-		menubar.add(menuBar);
-		setJMenuBar(menuBar);
-
-
-
 		//Create controller and assign property change listeners
-		PropertyChangeSupport menuBarPcs = new PropertyChangeSupport(menuBarController);
-		menuBarPcs.addPropertyChangeListener(summaryPanel);
-		menuBarPcs.addPropertyChangeListener(statusBar);
+		PropertyChangeSupport menuBarPcs = generatePcs(menuBarController, summaryPanel, statusBar);
 		menuBarController.setPCS(menuBarPcs);
 
-		PropertyChangeSupport wheelPanelPcs = new PropertyChangeSupport(wheelPanelController);
-		wheelPanelPcs.addPropertyChangeListener(wheelPanel);
-		wheelPanelController.setPCS(menuBarPcs);
+		PropertyChangeSupport wheelPanelPcs = generatePcs(wheelPanelController, wheelPanel);
+		wheelPanelController.setPCS(wheelPanelPcs);
 
-
-		PropertyChangeSupport gameEngineCallbackPcs = new PropertyChangeSupport(gameEngineCallbackController);
-		gameEngineCallbackPcs.addPropertyChangeListener(summaryPanel);
-		gameEngineCallbackPcs.addPropertyChangeListener(wheelPanel);
-		gameEngineCallbackPcs.addPropertyChangeListener(menuBar);
-
-		gameEngineCallbackPcs.addPropertyChangeListener(statusBar);
+		PropertyChangeSupport gameEngineCallbackPcs = generatePcs(gameEngineCallbackController, summaryPanel, wheelPanel, menuBar, statusBar);
 		gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
-
-
 
 		//Add summary pannel
 		add(summaryPanel, BorderLayout.WEST);
@@ -74,9 +50,36 @@ public class AppFrame extends JFrame {
 		//Add status bar
 		add(statusBar, BorderLayout.SOUTH);
 
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
 	}
+
+	private MenuBar createMenu(MenuBarController controller){
+		JMenu menu = new JMenu("size");
+		JMenuItem size = new JMenuItem("size");
+		menu.add(size);
+		var menuBar = new MenuBar(controller);
+		JMenuBar menubar = new JMenuBar();
+		menubar.add(menuBar);
+		setJMenuBar(menuBar);
+		return menuBar;
+	}
+	private WheelPanel createWheelPanel(WheelPanelController wheelPanelController){
+
+		WheelPanel wheelPanel = new WheelPanel(wheelPanelController);
+
+		return wheelPanel;
+	}
+	private PropertyChangeSupport generatePcs(Object controller, Object... listeners){
+		PropertyChangeSupport pcs = new PropertyChangeSupport(controller);
+
+		for (Object listener: listeners
+		) {
+			pcs.addPropertyChangeListener((PropertyChangeListener) listener);
+		}
+		return pcs;
+
+	}
+
 }
