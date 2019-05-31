@@ -2,11 +2,12 @@ package view.dialogBoxes;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import javax.swing.*;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class RemovePlayerDialogBox {
     private GameEngine gameEngine;
-    public RemovePlayerDialogBox(GameEngine gameEngine) {
+    public RemovePlayerDialogBox(GameEngine gameEngine, PropertyChangeSupport pcs) {
         this.gameEngine = gameEngine;
         Object[] playerList = generatePlayerDropdownList().toArray();
         JComboBox<Object> playerComboBox = new JComboBox<>(playerList);
@@ -18,6 +19,7 @@ public class RemovePlayerDialogBox {
         if (option == JOptionPane.OK_OPTION) {
             var player = getPlayerFromComboBox(playerComboBox.getSelectedItem().toString());
             gameEngine.removePlayer(player);
+            pcs.firePropertyChange("Player Removed", false, true);
         }
     }
     private ArrayList<String> generatePlayerDropdownList() {

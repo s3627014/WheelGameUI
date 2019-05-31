@@ -26,23 +26,31 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
         textPane.setBackground(new Color(32, 118, 31));
         textPane.setText("       ***** Player Summary *****");
         add(textPane);
-        Border blackline = BorderFactory.createLineBorder(Color.black);
-        setBorder(blackline);
+        Border blackLine = BorderFactory.createLineBorder(Color.black);
+        setBorder(blackLine);
     }
 
     public void propertyChange(PropertyChangeEvent pce){
-        //Dont update the summary pannel if wheel is spinning
+        //Dont update the summary panel if wheel is spinning
         if (!pce.getPropertyName().equals("Spinning...")){
             updateText(pce.getPropertyName(), pce.getNewValue(), pce.getOldValue());
         }
     }
 
+
+    /**
+     * Updates the player summary.
+     * @param event that triggered the update.
+     * @param winners list of players who won.
+     * @param losers list of players who lost.
+     */
     private void updateText(String event, Object winners, Object losers){
         textPane.setText("       ***** Player Summary *****");
         String playerSummary = "\n";
         for (Player player: gameEngine.getAllPlayers()
         ) {
             var result = "";
+            var playerId = player.getPlayerId();
             var name = player.getPlayerName();
             var points = player.getPoints();
             var bet = player.getBet();
@@ -56,14 +64,15 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
                 }
                 for (String id: (ArrayList<String>) losers
                 ) {
-                    if (player.getPlayerId() == id) {
+                    if (playerId == id) {
                         result = " : LOSS";
                     }
                 }
 
             }
 
-            playerSummary += String.format("\n\n%s%s\n__________________________\nPoints: %s",
+            playerSummary += String.format("\n\n(%s) %s%s\n__________________________\nPoints: %s",
+                    playerId,
                     name,
                     result,
                     points,
@@ -71,7 +80,6 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
                     player.getBetType());
 
             if (betType != null){
-//                playerSummary += "\n\n" + name + result + "\n__________________________\nPoints: " + points +"\nBet: " + bet + " placed on " + player.getBetType();
                 playerSummary += String.format("\nBet: %s placed on %s",
                         bet,
                         player.getBetType());

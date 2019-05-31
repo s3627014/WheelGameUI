@@ -54,8 +54,7 @@ public class MenuBarControllerImpl implements MenuBarController {
 
     @Override
     public void addPlayerPopupDialog() {
-        new AddPlayerDialogBox(gameEngine);
-        pcs.firePropertyChange("Player Added", false, true);
+        new AddPlayerDialogBox(gameEngine, pcs);
     }
 
     @Override
@@ -67,25 +66,28 @@ public class MenuBarControllerImpl implements MenuBarController {
             choices.add(player.getPlayerId() + " : " + player.getPlayerName());
         }
 
+        //Error if no players to remove.
         if (choices.size() == 0) {
             JOptionPane.showMessageDialog(null, "No players to remove!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        new RemovePlayerDialogBox(gameEngine);
-
-        pcs.firePropertyChange("Player Removed", false, true);
+        new RemovePlayerDialogBox(gameEngine, pcs);
     }
 
     @Override
     public void betDialog() {
         var allPlayers = gameEngine.getAllPlayers();
+
+        //If no players are found show error.
         if (allPlayers.size() == 0) {
             JOptionPane.showMessageDialog(null, "No players found!", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        new BetDialogBox(gameEngine);
-        pcs.firePropertyChange("Bet Set", false, true);
+
+
+        new BetDialogBox(gameEngine, pcs);
+
 
         //Check if a player still has a bet to place, if not spin the wheel.
         for (Player player: allPlayers
@@ -94,6 +96,7 @@ public class MenuBarControllerImpl implements MenuBarController {
                 return;
             }
         }
+
         new Thread()
         {
             @Override

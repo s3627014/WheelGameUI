@@ -7,11 +7,12 @@ import model.interfaces.Player;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class BetDialogBox {
     private GameEngine gameEngine;
-    public BetDialogBox(GameEngine gameEngine) {
+    public BetDialogBox(GameEngine gameEngine, PropertyChangeSupport pcs) {
         this.gameEngine = gameEngine;
         SpinnerModel model = new SpinnerNumberModel();
         JSpinner bet = new JSpinner(model);
@@ -52,6 +53,7 @@ public class BetDialogBox {
                         "Maximum Bet limit reached. " +
                                 "Bet placed is " + betValue);
             }
+            pcs.firePropertyChange("Bet Set", false, true);
         }
     }
     private ArrayList<String> generatePlayerDropdownList() {

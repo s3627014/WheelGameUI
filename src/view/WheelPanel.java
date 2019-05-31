@@ -41,10 +41,10 @@ public class WheelPanel extends JPanel implements PropertyChangeListener {
             int slotPosition = Integer.parseInt(pce.getNewValue().toString());
             calculateAngle(slotPosition);
         }
-
     }
 
-    public void calculateAngle(int slotPosition) {
+    //Calculates the angle of the slot in order to paint the ball.
+    private void calculateAngle(int slotPosition) {
 
         // slotPosition - 9 because degrees 0 points to the right most slot instead of the top slot.
         // 0.165 is the slot width and 0.1 is the offset angle.
@@ -62,8 +62,7 @@ public class WheelPanel extends JPanel implements PropertyChangeListener {
         var wheelDimension = 0;
         var w = getWidth();
         var h = getHeight() - heightOfSpinBtn; //move wheel above the button
-        var horizontalScaleValue = getWidth() < 600 ? 0 : getWidth() / 2 - h / 2;
-
+        var horizontalScaleValue = w < h ? 0 : w/2 - h/2; //Keeps the wheel centered in the wheelPanel
         //Keep wheel as a square, Pick the smallest of the h/w and set that as the
         if (w > h) {
             wheelDimension = h;

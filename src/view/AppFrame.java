@@ -54,6 +54,7 @@ public class AppFrame extends JFrame {
 		add(statusBar, BorderLayout.SOUTH);
 
 		setBounds(100, 100, 1280, 720);
+		setMinimumSize(new Dimension(600,500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
