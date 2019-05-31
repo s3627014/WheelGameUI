@@ -10,81 +10,81 @@ import model.GameEngineImpl;
 import model.interfaces.GameEngine;
 import view.interfaces.GameEngineCallback;
 
-import java.awt.*;
-
 import javax.swing.*;
-
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class AppFrame extends JFrame {
 
-	public AppFrame() {
-		super("WheelGameUI");
+    public AppFrame() {
+        super("WheelGameUI");
 
-		final GameEngine gameEngine = new GameEngineImpl();
+        final GameEngine gameEngine = new GameEngineImpl();
 
-		//Create View components
-		StatusBar statusBar = new StatusBar();
-		MenuBarController menuBarController = new MenuBarControllerImpl(gameEngine);
-		MenuBar menuBar = createMenu(menuBarController);
-		WheelPanelController wheelPanelController = new WheelPanelControllerImpl(gameEngine);
-		WheelPanel wheelPanel = createWheelPanel(wheelPanelController);
-		SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
+        //Create View components
+        StatusBar statusBar = new StatusBar();
+        MenuBarController menuBarController = new MenuBarControllerImpl(gameEngine);
+        MenuBar menuBar = createMenu(menuBarController);
+        WheelPanelController wheelPanelController = new WheelPanelControllerImpl(gameEngine);
+        WheelPanel wheelPanel = createWheelPanel(wheelPanelController);
+        SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
 
-		//Add callbacks for console/UI. Create Wheel.
-		GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackControllerImpl(gameEngine);
-		GameEngineCallback gameEngineCallbackUI = new GameEngineCallbackGUI(gameEngineCallbackController);
-		GameEngineCallback gameEngineCallback = new GameEngineCallbackImpl();
-		gameEngine.addGameEngineCallback(gameEngineCallback);
-		gameEngine.addGameEngineCallback(gameEngineCallbackUI);
-		gameEngine.getWheelSlots();
+        //Add callbacks for console/UI. Create Wheel.
+        GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackControllerImpl(gameEngine);
+        GameEngineCallback gameEngineCallbackUI = new GameEngineCallbackGUI(gameEngineCallbackController);
+        GameEngineCallback gameEngineCallback = new GameEngineCallbackImpl();
+        gameEngine.addGameEngineCallback(gameEngineCallback);
+        gameEngine.addGameEngineCallback(gameEngineCallbackUI);
+        gameEngine.getWheelSlots();
 
-		//Create controller and assign property change listeners
-		PropertyChangeSupport menuBarPcs = generatePcs(menuBarController, summaryPanel, statusBar);
-		menuBarController.setPCS(menuBarPcs);
-		PropertyChangeSupport wheelPanelPcs = generatePcs(wheelPanelController, wheelPanel);
-		wheelPanelController.setPCS(wheelPanelPcs);
-		PropertyChangeSupport gameEngineCallbackPcs = generatePcs(gameEngineCallbackController, summaryPanel, wheelPanel, menuBar, statusBar);
-		gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
+        //Create controller and assign property change listeners
+        PropertyChangeSupport menuBarPcs = generatePcs(menuBarController, summaryPanel, statusBar);
+        menuBarController.setPCS(menuBarPcs);
+        PropertyChangeSupport wheelPanelPcs = generatePcs(wheelPanelController, wheelPanel);
+        wheelPanelController.setPCS(wheelPanelPcs);
+        PropertyChangeSupport gameEngineCallbackPcs = generatePcs(gameEngineCallbackController, summaryPanel, wheelPanel, menuBar, statusBar);
+        gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
 
-		//Add components to frame
-		add(summaryPanel, BorderLayout.WEST);
-		add(wheelPanel, BorderLayout.CENTER);
-		add(statusBar, BorderLayout.SOUTH);
+        //Add components to frame
+        add(summaryPanel, BorderLayout.WEST);
+        add(wheelPanel, BorderLayout.CENTER);
+        add(statusBar, BorderLayout.SOUTH);
 
-		setBounds(100, 100, 1280, 720);
-		setMinimumSize(new Dimension(600,500));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+        setBounds(100, 100, 1280, 720);
+        setMinimumSize(new Dimension(600, 500));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
-	}
+    }
 
-	private MenuBar createMenu(MenuBarController controller){
-		JMenu menu = new JMenu("size");
-		JMenuItem size = new JMenuItem("size");
-		menu.add(size);
-		var menuBar = new MenuBar(controller);
-		JMenuBar menubar = new JMenuBar();
-		menubar.add(menuBar);
-		setJMenuBar(menuBar);
-		return menuBar;
-	}
-	private WheelPanel createWheelPanel(WheelPanelController wheelPanelController){
+    private MenuBar createMenu(MenuBarController controller) {
+        JMenu menu = new JMenu("size");
+        JMenuItem size = new JMenuItem("size");
+        menu.add(size);
+        var menuBar = new MenuBar(controller);
+        JMenuBar menubar = new JMenuBar();
+        menubar.add(menuBar);
+        setJMenuBar(menuBar);
+        return menuBar;
+    }
 
-		WheelPanel wheelPanel = new WheelPanel(wheelPanelController);
+    private WheelPanel createWheelPanel(WheelPanelController wheelPanelController) {
 
-		return wheelPanel;
-	}
-	private PropertyChangeSupport generatePcs(Object controller, Object... listeners){
-		PropertyChangeSupport pcs = new PropertyChangeSupport(controller);
+        WheelPanel wheelPanel = new WheelPanel(wheelPanelController);
 
-		for (Object listener: listeners
-		) {
-			pcs.addPropertyChangeListener((PropertyChangeListener) listener);
-		}
-		return pcs;
+        return wheelPanel;
+    }
 
-	}
+    private PropertyChangeSupport generatePcs(Object controller, Object... listeners) {
+        PropertyChangeSupport pcs = new PropertyChangeSupport(controller);
+
+        for (Object listener : listeners
+        ) {
+            pcs.addPropertyChangeListener((PropertyChangeListener) listener);
+        }
+        return pcs;
+
+    }
 
 }

@@ -1,31 +1,24 @@
 package app;
 
-import model.GameEngineImpl;
-import model.interfaces.GameEngine;
 import view.AppFrame;
-import view.GameEngineCallbackGUI;
-import view.GameEngineCallbackImpl;
 
-import javax.swing.SwingUtilities;
-import java.util.logging.Logger;
+import javax.swing.*;
 
-public class Client
-{
-	public static void main(String[] args)
-	{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					createAndShowGUI();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public class Client {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    createAndShowGUI();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	public static void createAndShowGUI() throws Exception {
-		new AppFrame();
+    public static void createAndShowGUI() throws Exception {
+        new AppFrame();
 
-	}
+    }
 }

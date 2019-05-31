@@ -8,7 +8,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SummaryPanel extends JPanel implements PropertyChangeListener {
@@ -17,7 +16,7 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
     private JTextPane textPane = new JTextPane();
 
 
-    public SummaryPanel(GameEngine gameEngine){
+    SummaryPanel(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
         setBackground(new Color(32, 118, 31));
         textPane.setPreferredSize(new Dimension(200, 620));
@@ -30,9 +29,9 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
         setBorder(blackLine);
     }
 
-    public void propertyChange(PropertyChangeEvent pce){
+    public void propertyChange(PropertyChangeEvent pce) {
         //Dont update the summary panel if wheel is spinning
-        if (!pce.getPropertyName().equals("Spinning...")){
+        if (!pce.getPropertyName().equals("Spinning...")) {
             updateText(pce.getPropertyName(), pce.getNewValue(), pce.getOldValue());
         }
     }
@@ -40,14 +39,15 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
 
     /**
      * Updates the player summary.
-     * @param event that triggered the update.
+     *
+     * @param event   that triggered the update.
      * @param winners list of players who won.
-     * @param losers list of players who lost.
+     * @param losers  list of players who lost.
      */
-    private void updateText(String event, Object winners, Object losers){
+    private void updateText(String event, Object winners, Object losers) {
         textPane.setText("       ***** Player Summary *****");
         String playerSummary = "\n";
-        for (Player player: gameEngine.getAllPlayers()
+        for (Player player : gameEngine.getAllPlayers()
         ) {
             var result = "";
             var playerId = player.getPlayerId();
@@ -55,14 +55,14 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
             var points = player.getPoints();
             var bet = player.getBet();
             var betType = player.getBetType();
-            if (event == "Spin complete"){
-                for (String id: (ArrayList<String>) winners
-                     ) {
+            if (event == "Spin complete") {
+                for (String id : (ArrayList<String>) winners
+                ) {
                     if (player.getPlayerId() == id) {
                         result = " : WIN";
                     }
                 }
-                for (String id: (ArrayList<String>) losers
+                for (String id : (ArrayList<String>) losers
                 ) {
                     if (playerId == id) {
                         result = " : LOSS";
@@ -79,7 +79,7 @@ public class SummaryPanel extends JPanel implements PropertyChangeListener {
                     bet,
                     player.getBetType());
 
-            if (betType != null){
+            if (betType != null) {
                 playerSummary += String.format("\nBet: %s placed on %s",
                         bet,
                         player.getBetType());

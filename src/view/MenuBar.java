@@ -1,11 +1,12 @@
 package view;
 
 import controller.interfaces.MenuBarController;
+
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class MenuBar  extends JMenuBar implements PropertyChangeListener {
+public class MenuBar extends JMenuBar implements PropertyChangeListener {
 
     private JMenuItem closeItem, aboutItem, addPlayerItem, removePlayerItem, setBetItem;
     private JMenu playersMenu = new JMenu("Players");

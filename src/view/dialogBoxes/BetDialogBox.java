@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class BetDialogBox {
     private GameEngine gameEngine;
+
     public BetDialogBox(GameEngine gameEngine, PropertyChangeSupport pcs) {
         this.gameEngine = gameEngine;
         SpinnerModel model = new SpinnerNumberModel();
@@ -56,6 +57,7 @@ public class BetDialogBox {
             pcs.firePropertyChange("Bet Set", false, true);
         }
     }
+
     private ArrayList<String> generatePlayerDropdownList() {
         var playerList = new ArrayList<String>();
         for (Player player : gameEngine.getAllPlayers()
@@ -64,10 +66,12 @@ public class BetDialogBox {
         }
         return playerList;
     }
+
     private Player getPlayerFromComboBox(String input) {
         var playerId = input.split(" ")[0];
         return gameEngine.getPlayer(playerId);
     }
+
     private void setBetRange(JComboBox<Object> comboBox, SpinnerModel model) {
         var selection = comboBox.getSelectedItem().toString();
         var selectedPlayer = getPlayerFromComboBox(selection);

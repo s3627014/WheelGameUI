@@ -90,18 +90,16 @@ public class MenuBarControllerImpl implements MenuBarController {
 
 
         //Check if a player still has a bet to place, if not spin the wheel.
-        for (Player player: allPlayers
-             ) {
-            if (player.getBetType() == null){
+        for (Player player : allPlayers
+        ) {
+            if (player.getBetType() == null) {
                 return;
             }
         }
 
-        new Thread()
-        {
+        new Thread() {
             @Override
-            public void run()
-            {
+            public void run() {
                 gameEngine.spin(1, 200, 5);
 
             }

@@ -22,33 +22,31 @@ public class GameEngineCallbackControllerImpl implements GameEngineCallbackContr
     }
 
     @Override
-    public void showResults(Slot winningSlot){
+    public void showResults(Slot winningSlot) {
         var winners = new ArrayList<String>();
         var losers = new ArrayList<String>();
 
         for (Player player : gameEngine.getAllPlayers()
-             ) {
-            if (player.getBetType() == null || player.getBet() == 0){
+        ) {
+            if (player.getBetType() == null || player.getBet() == 0) {
                 continue;
             }
-            if (player.getBetType().toString() == winningSlot.getColor().name().toUpperCase()){
+            if (player.getBetType().toString() == winningSlot.getColor().name().toUpperCase()) {
                 winners.add(player.getPlayerId());
-            }
-            else {
+            } else {
                 losers.add(player.getPlayerId());
             }
             player.resetBet();
         }
-        if (losers.size() == 0 && winners.size() == 0){
+        if (losers.size() == 0 && winners.size() == 0) {
             pcs.firePropertyChange("Spin complete, not bets placed", false, true);
-        }
-        else{
+        } else {
             pcs.firePropertyChange("Spin complete", losers, winners);
         }
     }
 
     @Override
-    public void drawNextSlot(Slot slot){
+    public void drawNextSlot(Slot slot) {
         pcs.firePropertyChange("Spinning...", false, slot.getPosition());
     }
 }

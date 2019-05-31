@@ -2,10 +2,8 @@ package controller;
 
 import controller.interfaces.WheelPanelController;
 import model.interfaces.GameEngine;
-import view.GameEngineCallbackImpl;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeSupport;
 
 public class WheelPanelControllerImpl implements WheelPanelController {
@@ -20,11 +18,9 @@ public class WheelPanelControllerImpl implements WheelPanelController {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        new Thread()
-        {
+        new Thread() {
             @Override
-            public void run()
-            {
+            public void run() {
                 gameEngine.spin(1, 200, 5);
 
             }

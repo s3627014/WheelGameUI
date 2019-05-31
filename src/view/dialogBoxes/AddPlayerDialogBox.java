@@ -24,7 +24,7 @@ public class AddPlayerDialogBox {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            if (name.getText().trim().length() == 0){
+            if (name.getText().trim().length() == 0) {
                 JOptionPane.showMessageDialog(null, "Name cannot be empty");
                 new AddPlayerDialogBox(gameEngine, pcs);
                 return;
@@ -38,18 +38,18 @@ public class AddPlayerDialogBox {
 
     }
 
-    private String getUniqueId(Collection<Player> players, int id){
+    private String getUniqueId(Collection<Player> players, int id) {
         String stringId;
-        while (true){
+        while (true) {
             stringId = Integer.toString(id);
 
-            for (Player player: players
+            for (Player player : players
             ) {
-                if (player.getPlayerId().equals(stringId)){
+                if (player.getPlayerId().equals(stringId)) {
                     id++;
                 }
             }
-            if (stringId.equals(Integer.toString(id))){
+            if (stringId.equals(Integer.toString(id))) {
                 break;
             }
         }

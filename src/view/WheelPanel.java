@@ -1,6 +1,7 @@
 package view;
 
 import controller.interfaces.WheelPanelController;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +63,7 @@ public class WheelPanel extends JPanel implements PropertyChangeListener {
         var wheelDimension = 0;
         var w = getWidth();
         var h = getHeight() - heightOfSpinBtn; //move wheel above the button
-        var horizontalScaleValue = w < h ? 0 : w/2 - h/2; //Keeps the wheel centered in the wheelPanel
+        var horizontalScaleValue = w < h ? 0 : w / 2 - h / 2; //Keeps the wheel centered in the wheelPanel
         //Keep wheel as a square, Pick the smallest of the h/w and set that as the
         if (w > h) {
             wheelDimension = h;
