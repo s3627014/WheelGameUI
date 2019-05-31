@@ -1,5 +1,6 @@
 package controller;
 
+import controller.interfaces.GameEngineCallbackController;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import model.interfaces.Slot;
@@ -7,19 +8,20 @@ import model.interfaces.Slot;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
-public class GameEngineCallbackController {
-    public GameEngineCallbackController(GameEngine gameEngine) {
-        this.gameEngine = gameEngine;
-    }
-
+public class GameEngineCallbackControllerImpl implements GameEngineCallbackController {
     private PropertyChangeSupport pcs;
     private GameEngine gameEngine;
 
+    public GameEngineCallbackControllerImpl(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
 
+    @Override
     public void setPCS(PropertyChangeSupport pcs) {
         this.pcs = pcs;
     }
 
+    @Override
     public void showResults(Slot winningSlot){
         var winners = new ArrayList<String>();
         var losers = new ArrayList<String>();
@@ -38,13 +40,14 @@ public class GameEngineCallbackController {
             player.resetBet();
         }
         if (losers.size() == 0 && winners.size() == 0){
-            pcs.firePropertyChange("Cheeky spin just for fun", false, true);
+            pcs.firePropertyChange("Spin complete, not bets placed", false, true);
         }
         else{
             pcs.firePropertyChange("Spin complete", losers, winners);
         }
     }
 
+    @Override
     public void drawNextSlot(Slot slot){
         pcs.firePropertyChange("Spinning...", false, slot.getPosition());
     }

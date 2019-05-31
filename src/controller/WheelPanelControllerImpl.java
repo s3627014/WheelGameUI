@@ -1,5 +1,6 @@
 package controller;
 
+import controller.interfaces.WheelPanelController;
 import model.interfaces.GameEngine;
 import view.GameEngineCallbackImpl;
 
@@ -7,11 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeSupport;
 
-public class WheelPanelController implements ActionListener {
+public class WheelPanelControllerImpl implements WheelPanelController {
+
     private PropertyChangeSupport pcs;
     private GameEngine gameEngine;
 
-    public WheelPanelController(GameEngine gameEngine) {
+    public WheelPanelControllerImpl(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 
@@ -29,6 +31,7 @@ public class WheelPanelController implements ActionListener {
         }.start();
     }
 
+    @Override
     public void setPCS(PropertyChangeSupport pcs) {
         this.pcs = pcs;
     }

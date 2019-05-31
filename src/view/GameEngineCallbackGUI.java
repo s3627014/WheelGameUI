@@ -1,6 +1,6 @@
 package view;
 
-import controller.GameEngineCallbackController;
+import controller.interfaces.GameEngineCallbackController;
 import model.interfaces.GameEngine;
 import model.interfaces.Slot;
 import view.interfaces.GameEngineCallback;

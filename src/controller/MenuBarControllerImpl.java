@@ -1,5 +1,6 @@
 package controller;
 
+import controller.interfaces.MenuBarController;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import view.dialogBoxes.AboutDialogBox;
@@ -9,16 +10,15 @@ import view.dialogBoxes.RemovePlayerDialogBox;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
-public class MenuBarController implements ActionListener {
+public class MenuBarControllerImpl implements MenuBarController {
 
     private PropertyChangeSupport pcs;
     private GameEngine gameEngine;
 
-    public MenuBarController(GameEngine gameEngine) {
+    public MenuBarControllerImpl(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 
@@ -47,16 +47,19 @@ public class MenuBarController implements ActionListener {
 
     }
 
+    @Override
     public void setPCS(PropertyChangeSupport pcs) {
         this.pcs = pcs;
     }
 
-    private void addPlayerPopupDialog() {
+    @Override
+    public void addPlayerPopupDialog() {
         new AddPlayerDialogBox(gameEngine);
         pcs.firePropertyChange("Player Added", false, true);
     }
 
-    private void removePlayerDialog() {
+    @Override
+    public void removePlayerDialog() {
         var choices = new ArrayList<String>();
 
         for (Player player : gameEngine.getAllPlayers()
@@ -74,7 +77,8 @@ public class MenuBarController implements ActionListener {
         pcs.firePropertyChange("Player Removed", false, true);
     }
 
-    private void betDialog() {
+    @Override
+    public void betDialog() {
         var allPlayers = gameEngine.getAllPlayers();
         if (allPlayers.size() == 0) {
             JOptionPane.showMessageDialog(null, "No players found!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -102,7 +106,8 @@ public class MenuBarController implements ActionListener {
 
     }
 
-    private void aboutDialog() {
+    @Override
+    public void aboutDialog() {
         new AboutDialogBox();
     }
 

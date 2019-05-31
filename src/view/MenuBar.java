@@ -1,7 +1,6 @@
 package view;
 
-import controller.MenuBarController;
-
+import controller.interfaces.MenuBarController;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,6 +33,6 @@ public class MenuBar  extends JMenuBar implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent pce) {
-        playersMenu.setEnabled(pce.getPropertyName().equals("Spin complete") || pce.getPropertyName() == "Cheeky spin just for fun");
+        playersMenu.setEnabled(pce.getPropertyName().equals("Spin complete") || pce.getPropertyName() == "Spin complete, not bets placed");
     }
 }

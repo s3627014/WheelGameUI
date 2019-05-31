@@ -1,6 +1,6 @@
 package view;
 
-import controller.WheelPanelController;
+import controller.interfaces.WheelPanelController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

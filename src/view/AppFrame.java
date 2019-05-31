@@ -1,10 +1,14 @@
 package view;
 
-import controller.GameEngineCallbackController;
-import controller.MenuBarController;
-import controller.WheelPanelController;
+import controller.GameEngineCallbackControllerImpl;
+import controller.MenuBarControllerImpl;
+import controller.WheelPanelControllerImpl;
+import controller.interfaces.GameEngineCallbackController;
+import controller.interfaces.MenuBarController;
+import controller.interfaces.WheelPanelController;
 import model.GameEngineImpl;
 import model.interfaces.GameEngine;
+import view.interfaces.GameEngineCallback;
 
 import java.awt.*;
 
@@ -16,40 +20,40 @@ import java.beans.PropertyChangeSupport;
 public class AppFrame extends JFrame {
 
 	public AppFrame() {
-		//Set layout + title of Frame
 		super("WheelGameUI");
-		setBounds(100, 100, 1280, 720);
 
 		final GameEngine gameEngine = new GameEngineImpl();
-		var statusBar = new StatusBar();
-		gameEngine.addGameEngineCallback(new GameEngineCallbackImpl());
-		gameEngine.getWheelSlots();
-		MenuBarController menuBarController = new MenuBarController(gameEngine);
-		var menuBar = createMenu(menuBarController);
-		WheelPanelController wheelPanelController = new WheelPanelController(gameEngine);
-		GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackController(gameEngine);
-		SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
+
+		//Create View components
+		StatusBar statusBar = new StatusBar();
+		MenuBarController menuBarController = new MenuBarControllerImpl(gameEngine);
+		MenuBar menuBar = createMenu(menuBarController);
+		WheelPanelController wheelPanelController = new WheelPanelControllerImpl(gameEngine);
 		WheelPanel wheelPanel = createWheelPanel(wheelPanelController);
-		gameEngine.addGameEngineCallback(new GameEngineCallbackGUI(gameEngineCallbackController));
+		SummaryPanel summaryPanel = new SummaryPanel(gameEngine);
+
+		//Add callbacks for console/UI. Create Wheel.
+		GameEngineCallbackController gameEngineCallbackController = new GameEngineCallbackControllerImpl(gameEngine);
+		GameEngineCallback gameEngineCallbackUI = new GameEngineCallbackGUI(gameEngineCallbackController);
+		GameEngineCallback gameEngineCallback = new GameEngineCallbackImpl();
+		gameEngine.addGameEngineCallback(gameEngineCallback);
+		gameEngine.addGameEngineCallback(gameEngineCallbackUI);
+		gameEngine.getWheelSlots();
+
 		//Create controller and assign property change listeners
 		PropertyChangeSupport menuBarPcs = generatePcs(menuBarController, summaryPanel, statusBar);
 		menuBarController.setPCS(menuBarPcs);
-
 		PropertyChangeSupport wheelPanelPcs = generatePcs(wheelPanelController, wheelPanel);
 		wheelPanelController.setPCS(wheelPanelPcs);
-
 		PropertyChangeSupport gameEngineCallbackPcs = generatePcs(gameEngineCallbackController, summaryPanel, wheelPanel, menuBar, statusBar);
 		gameEngineCallbackController.setPCS(gameEngineCallbackPcs);
 
-		//Add summary pannel
+		//Add components to frame
 		add(summaryPanel, BorderLayout.WEST);
-
-		//Add wheel panel
 		add(wheelPanel, BorderLayout.CENTER);
-
-		//Add status bar
 		add(statusBar, BorderLayout.SOUTH);
 
+		setBounds(100, 100, 1280, 720);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
